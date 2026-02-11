@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillForge | Master Your Soft Skills</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <header>
+            <div class="logo">SkillForge</div>
+            <div class="subtitle">Master Your Soft Skills</div>
+        </header>
+
+        <section id="home-view" class="view active">
+            <div class="hero-content">
+                <h1>Ready to level up?</h1>
+                <p>Select a mode to begin your assessment.</p>
+                <div class="mode-cards">
+                    <div class="card mode-card" onclick="app.setMode('practice')">
+                        <h3>Practice Mode</h3>
+                        <p>Immediate feedback, detailed solutions, and stress-free learning.</p>
+                        <div class="icon">Example ➜</div>
+                    </div>
+                    <div class="card mode-card" onclick="app.setMode('test')">
+                        <h3>Test Mode</h3>
+                        <p>Timed assessment, no hints, and performance analytics.</p>
+                        <div class="icon">Assessment ➜</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="topic-view" class="view hidden">
+            <div class="section-header">
+                <button class="btn-text" onclick="app.goHome()">← Back</button>
+                <h2>Select a Topic</h2>
+            </div>
+            <div id="topics-grid" class="grid-container">
+                </div>
+        </section>
+
+        <section id="quiz-view" class="view hidden">
+
+            <div class="quiz-header">
+                <div class="progress-box">
+                    <span id="progress-text">Question 1 / 10</span>
+                    <div class="progress-bar">
+                        <div id="progress-fill"></div>
+                    </div>
+                </div>
+                <div id="timer-box" class="timer hidden">00:00</div>
+            </div>
+
+            <div class="card question-card">
+                <div class="question-meta">
+                    <span id="q-topic-badge" class="badge">Topic</span>
+                </div>
+                <h2 id="q-text">Question text goes here...</h2>
+
+                <div id="options-container" class="options-grid">
+                    </div>
+
+                <div id="explanation-box" class="explanation hidden">
+                    <h4><span class="icon">💡</span> Insight</h4>
+                    <p id="explanation-text">Solution details...</p>
+                </div>
+            </div>
+
+            <div class="quiz-footer">
+                <button id="btn-quit" class="btn-secondary" onclick="app.goHome()">Quit</button>
+                <button id="btn-next" class="btn-primary" onclick="app.nextQuestion()">Next Question</button>
+                <button id="btn-submit" class="btn-primary hidden" onclick="app.finishTest()">Submit Test</button>
+            </div>
+        </section>
+
+        <section id="result-view" class="view hidden">
+            <div class="result-container card">
+                <h2>Assessment Complete</h2>
+                <div class="score-circle">
+                    <span id="score-percentage">80%</span>
+                </div>
+                <h3 id="performance-msg">Excellent Work!</h3>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="label">Total Questions</span>
+                        <span id="res-total" class="value">10</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Correct</span>
+                        <span id="res-correct" class="value text-green">8</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Incorrect</span>
+                        <span id="res-wrong" class="value text-red">2</span>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn-secondary" onclick="app.goHome()">Home</button>
+                    <button class="btn-primary" onclick="app.restartTopic()">Retry Topic</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
