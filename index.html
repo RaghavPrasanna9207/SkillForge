@@ -3,106 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillForge | Master Your Soft Skills</title>
+    <title>SkillForge | Neon Operator Edition</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="app-container">
 
+        <!-- ===== Top Stats Bar (HUD Readout) ===== -->
+        <div class="top-bar">
+            <div class="stat-pill streak-pill" title="Uptime (Days Online)">
+                <span class="flame-icon" id="flame-icon">◆</span>
+                <span id="streak-count">0</span>
+            </div>
+            <div class="stat-pill xp-pill" title="Data Uploaded">
+                <span class="xp-icon">⬡</span>
+                <span id="xp-count">0</span> DU
+            </div>
+            <div class="stat-pill hearts-pill" title="System Integrity">
+                <span class="heart-icon">◈</span>
+                <span id="heart-count">5</span>
+            </div>
+        </div>
+
+        <!-- ===== Header ===== -->
         <header>
             <div class="logo">SkillForge</div>
-            <div class="subtitle">Master Your Soft Skills</div>
+            <div class="subtitle">Neon Operator Edition</div>
         </header>
 
+        <!-- ===== Daily Goal Ring (Data Sync) ===== -->
+        <div id="daily-goal-widget" class="daily-goal-widget">
+            <svg class="goal-ring" viewBox="0 0 80 80">
+                <circle class="goal-ring-bg" cx="40" cy="40" r="34"></circle>
+                <circle id="goal-ring-fill" class="goal-ring-fill" cx="40" cy="40" r="34"></circle>
+            </svg>
+            <div class="goal-ring-text">
+                <span id="goal-xp-text">0</span>
+                <span class="goal-label">/ 50 DU TARGET</span>
+            </div>
+        </div>
+
+        <!-- ===== Home View ===== -->
         <section id="home-view" class="view active">
             <div class="hero-content">
-                <h1>Ready to level up?</h1>
-                <p>Select a mode to begin your assessment.</p>
+                <h1>INITIALIZE PROTOCOL</h1>
+                <p>Select an operation mode to begin.</p>
                 <div class="mode-cards">
                     <div class="card mode-card" onclick="app.setMode('practice')">
-                        <h3>Practice Mode</h3>
-                        <p>Immediate feedback, detailed solutions, and stress-free learning.</p>
-                        <div class="icon">Example ➜</div>
+                        <div class="mode-icon">⟐</div>
+                        <h3>Training</h3>
+                        <p>Live feedback. Full diagnostics enabled.</p>
+                        <div class="mode-arrow">LAUNCH →</div>
                     </div>
                     <div class="card mode-card" onclick="app.setMode('test')">
-                        <h3>Test Mode</h3>
-                        <p>Timed assessment, no hints, and performance analytics.</p>
-                        <div class="icon">Assessment ➜</div>
+                        <div class="mode-icon">◇</div>
+                        <h3>Assessment</h3>
+                        <p>Timed. No guidance. Performance tracked.</p>
+                        <div class="mode-arrow">ENGAGE →</div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- ===== Topic View ===== -->
         <section id="topic-view" class="view hidden">
             <div class="section-header">
-                <button class="btn-text" onclick="app.goHome()">← Back</button>
-                <h2>Select a Topic</h2>
+                <button class="btn-back" onclick="app.goHome()">← ABORT</button>
+                <h2>Select Module</h2>
             </div>
-            <div id="topics-grid" class="grid-container">
-                </div>
+            <div id="topics-grid" class="grid-container"></div>
         </section>
 
+        <!-- ===== Quiz View ===== -->
         <section id="quiz-view" class="view hidden">
 
-            <div class="quiz-header">
-                <div class="progress-box">
-                    <span id="progress-text">Question 1 / 10</span>
-                    <div class="progress-bar">
-                        <div id="progress-fill"></div>
-                    </div>
+            <!-- Progress Bar (thin neon line at top) -->
+            <div class="quiz-top-bar">
+                <button class="btn-close-quiz" onclick="app.confirmQuit()">✕</button>
+                <div class="progress-bar-track">
+                    <div id="progress-fill" class="progress-bar-fill"></div>
                 </div>
+                <div class="quiz-hearts">
+                    <span class="heart-icon">◈</span>
+                    <span id="quiz-heart-count">5</span>
+                </div>
+            </div>
+
+            <!-- Status Indicator (Mascot replacement) -->
+            <div id="mascot" class="mascot">
+                <div class="mascot-emoji" id="mascot-face">⬡</div>
+            </div>
+
+            <!-- Question Card (Glass Panel) -->
+            <div class="question-area">
+                <div class="question-meta">
+                    <span id="q-topic-badge" class="badge">MODULE</span>
+                    <span id="progress-text" class="progress-label">01 / 10</span>
+                </div>
+                <h2 id="q-text">Loading query...</h2>
+
+                <div id="options-container" class="options-grid"></div>
+
                 <div id="timer-box" class="timer hidden">00:00</div>
             </div>
 
-            <div class="card question-card">
-                <div class="question-meta">
-                    <span id="q-topic-badge" class="badge">Topic</span>
-                </div>
-                <h2 id="q-text">Question text goes here...</h2>
+            <!-- Spacer so content doesn't hide behind fixed footer -->
+            <div class="quiz-footer-spacer"></div>
 
-                <div id="options-container" class="options-grid">
-                    </div>
-
-                <div id="explanation-box" class="explanation hidden">
-                    <h4><span class="icon">💡</span> Insight</h4>
-                    <p id="explanation-text">Solution details...</p>
-                </div>
-            </div>
-
-            <div class="quiz-footer">
-                <button id="btn-quit" class="btn-secondary" onclick="app.goHome()">Quit</button>
-                <button id="btn-next" class="btn-primary" onclick="app.nextQuestion()">Next Question</button>
-                <button id="btn-submit" class="btn-primary hidden" onclick="app.finishTest()">Submit Test</button>
+            <!-- Fixed Bottom Footer -->
+            <div id="quiz-fixed-footer" class="quiz-fixed-footer">
+                <button id="btn-check" class="btn-duo btn-duo-primary btn-check" onclick="app.checkAnswer()" disabled>VERIFY</button>
+                <button id="btn-next" class="btn-duo btn-duo-primary hidden" onclick="app.nextQuestion()">CONTINUE</button>
+                <button id="btn-submit" class="btn-duo btn-duo-primary hidden" onclick="app.finishTest()">SUBMIT</button>
             </div>
         </section>
 
+        <!-- ===== Bottom Sheet Feedback Drawer (Tech Panel) ===== -->
+        <div id="bottom-sheet-overlay" class="bottom-sheet-overlay hidden"></div>
+        <div id="bottom-sheet" class="bottom-sheet hidden">
+            <div class="bottom-sheet-content">
+                <div class="bottom-sheet-icon" id="sheet-icon">▣</div>
+                <h3 id="sheet-title">ACCESS GRANTED</h3>
+                <p id="sheet-explanation">Diagnostics loading...</p>
+                <button id="sheet-continue-btn" class="btn-duo btn-sheet-continue" onclick="app.sheetContinue()">PROCEED</button>
+            </div>
+        </div>
+
+        <!-- ===== System Failure Modal (Game Over) ===== -->
+        <div id="gameover-overlay" class="gameover-overlay hidden">
+            <div class="gameover-modal card">
+                <div class="gameover-icon">⚠</div>
+                <h2>SYSTEM FAILURE</h2>
+                <p>Shield integrity depleted. Reinitialize or return to base.</p>
+                <div class="gameover-actions">
+                    <button class="btn-duo btn-duo-secondary" onclick="app.goHome()">ABORT</button>
+                    <button class="btn-duo btn-duo-green" onclick="app.refillAndRestart()">REINITIALIZE</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Result View ===== -->
         <section id="result-view" class="view hidden">
             <div class="result-container card">
-                <h2>Assessment Complete</h2>
+                <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+                <h2>MISSION COMPLETE</h2>
                 <div class="score-circle">
                     <span id="score-percentage">80%</span>
                 </div>
-                <h3 id="performance-msg">Excellent Work!</h3>
+                <h3 id="performance-msg">OPERATION SUCCESSFUL</h3>
+
+                <div class="xp-earned-box">
+                    <span class="xp-earned-label">Data Uploaded</span>
+                    <span id="xp-earned-value" class="xp-earned-value">+100 DU</span>
+                </div>
 
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <span class="label">Total Questions</span>
+                        <span class="label">Queries</span>
                         <span id="res-total" class="value">10</span>
                     </div>
                     <div class="stat-item">
-                        <span class="label">Correct</span>
+                        <span class="label">Resolved</span>
                         <span id="res-correct" class="value text-green">8</span>
                     </div>
                     <div class="stat-item">
-                        <span class="label">Incorrect</span>
+                        <span class="label">Errors</span>
                         <span id="res-wrong" class="value text-red">2</span>
                     </div>
                 </div>
 
                 <div class="result-actions">
-                    <button class="btn-secondary" onclick="app.goHome()">Home</button>
-                    <button class="btn-primary" onclick="app.restartTopic()">Retry Topic</button>
+                    <button class="btn-duo btn-duo-secondary" onclick="app.goHome()">BASE</button>
+                    <button class="btn-duo btn-duo-green" onclick="app.restartTopic()">RETRY</button>
                 </div>
             </div>
         </section>
